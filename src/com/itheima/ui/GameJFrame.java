@@ -7,8 +7,13 @@ import java.awt.event.KeyListener;
 import java.util.Random;
 
 public class GameJFrame extends JFrame implements KeyListener {
-    //定义存储图片位置的二维数组
+    // 定义存储图片位置的二维数组
     int[][] imageIndex = new int[4][4];
+    // x，y用来存储空格的位置
+    int x = 0;
+    int y = 0;
+    // 定义游戏步数
+    int step = 0;
 
     public GameJFrame() {
         // 初始化窗口
@@ -36,10 +41,23 @@ public class GameJFrame extends JFrame implements KeyListener {
         // 将打乱后的数组元素存到二维数组中
         for (int i = 0; i < arr.length; i++) {
             imageIndex[i / 4][i % 4] = arr[i];
+            // 记录空白的位置
+            if (arr[i] == 0) {
+                x = i / 4;
+                y = i % 4;
+            }
         }
     }
 
     private void initImage() {
+        // 移除所有的内容
+        this.getContentPane().removeAll();
+
+        JLabel stepCount = new JLabel("步数：" + step);
+        stepCount.setBounds(50, 30, 100, 20);
+        this.getContentPane().add(stepCount);
+
+
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 4; i++) {
                 int count = imageIndex[i][j];
@@ -52,8 +70,10 @@ public class GameJFrame extends JFrame implements KeyListener {
             }
         }
         JLabel bg = new JLabel(new ImageIcon("image/background.png"));
-        bg.setBounds(40,40,508,560);
+        bg.setBounds(40, 40, 508, 560);
         this.getContentPane().add(bg);
+
+        this.getContentPane().repaint();
     }
 
     private void initJFrame() {
@@ -100,16 +120,81 @@ public class GameJFrame extends JFrame implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        if (keyCode == 65) {
+            this.getContentPane().removeAll();
+            JLabel all = new JLabel(new ImageIcon("image/girl/girl1/all.jpg"));
+            all.setBounds(83, 134, 420, 420);
+            this.getContentPane().add(all);
 
+            JLabel bg = new JLabel(new ImageIcon("image/background.png"));
+            bg.setBounds(40, 40, 508, 560);
+            this.getContentPane().add(bg);
+
+            this.getContentPane().repaint();
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        int keyCode = e.getKeyCode();
+        System.out.println(keyCode);
+        if (keyCode == 37) {
+            if (x == 0) {
+                return;
+            }
+            imageIndex[x][y] = imageIndex[x - 1][y];
+            imageIndex[x - 1][y] = 0;
+            initImage();
+            x--;
+            step++;
+            System.out.println("left");
+        } else if (keyCode == 38) {
+            if (y == 0) {
+                return;
+            }
+            imageIndex[x][y] = imageIndex[x][y - 1];
+            imageIndex[x][y - 1] = 0;
+            y--;
+            step++;
+            initImage();
+            System.out.println("up");
+        } else if (keyCode == 39) {
+            if (x == 3) {
+                return;
+            }
+            imageIndex[x][y] = imageIndex[x + 1][y];
+            imageIndex[x + 1][y] = 0;
+            x++;
+            step++;
+            initImage();
+            System.out.println("right");
+        } else if (keyCode == 40) {
+            if (y == 3) {
+                return;
+            }
+            imageIndex[x][y] = imageIndex[x][y + 1];
+            imageIndex[x][y + 1] = 0;
+            y++;
+            step++;
+            initImage();
+            System.out.println("down");
+        } else if (keyCode == 65) {
+            initImage();
+        } else if (keyCode == 87) {
+            imageIndex = new int[][]{
+                    {1, 5, 9, 13},
+                    {2, 6, 10, 14},
+                    {3, 7, 11, 15},
+                    {4, 8, 12, 0}
+            };
+            initImage();
+            x = 3;
+            y = 3;
+        }
     }
 }

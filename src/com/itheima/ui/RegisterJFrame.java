@@ -5,6 +5,13 @@ import javax.swing.*;
 public class RegisterJFrame extends JFrame {
 
     public RegisterJFrame(){
+        // 初始化窗口
+        initJFrame();
+        // 设置窗口的显示
+        this.setVisible(true);
+    }
+
+    private void initJFrame(){
         // 设置窗口的大小
         this.setSize(488, 500);
         // 设置窗口的名称
@@ -15,7 +22,8 @@ public class RegisterJFrame extends JFrame {
         this.setLocationRelativeTo(null);
         // 设置窗口关闭方式 代表关闭一个窗口程序会停止
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        // 设置窗口的显示
-        this.setVisible(true);
+
+        // 取消默认的居中方式，按照X,Y轴的形式来添加组件
+        this.setLayout(null);
     }
 }

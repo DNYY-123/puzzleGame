@@ -4,12 +4,28 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.lang.reflect.Array;
 import java.util.Random;
 
 public class GameJFrame extends JFrame implements KeyListener {
     // 定义存储图片位置的二维数组
     int[][] imageIndex = new int[4][4];
-    // x，y用来存储空格的位置
+    int[][] win = new int[][]{
+            {1, 5, 9, 13},
+            {2, 6, 10, 14},
+            {3, 7, 11, 15},
+            {4, 8, 12, 0}
+    };
+
+    // 储存图片路径
+    String[] imagePathArr = {"girl", "animal", "sport"};
+    String imagePath = imagePathArr[2];
+    int index = 1;
+
+    // x，y用来存储
+    // 空格的位置
     int x = 0;
     int y = 0;
     // 定义游戏步数
@@ -24,8 +40,29 @@ public class GameJFrame extends JFrame implements KeyListener {
         initArray();
         // 初始化图片
         initImage();
+        // 初始化图片路径
+        initImagePath();
         // 设置窗口的显示
         this.setVisible(true);
+    }
+
+    private int initImagePath() {
+        Random r = new Random();
+        switch (imagePath) {
+            case "girl" -> {
+                index = r.nextInt(13) + 1;
+                break;
+            }
+            case "animal" -> {
+                index = r.nextInt(8) + 1;
+                break;
+            }
+            case "sport" -> {
+                index = r.nextInt(10) + 1;
+                break;
+            }
+        }
+        return index;
     }
 
     private void initArray() {
@@ -53,6 +90,12 @@ public class GameJFrame extends JFrame implements KeyListener {
         // 移除所有的内容
         this.getContentPane().removeAll();
 
+        if (isWin()) {
+            JLabel winJLabel = new JLabel(new ImageIcon("image/win.png"));
+            winJLabel.setBounds(203, 283, 197, 73);
+            this.getContentPane().add(winJLabel);
+        }
+
         JLabel stepCount = new JLabel("步数：" + step);
         stepCount.setBounds(50, 30, 100, 20);
         this.getContentPane().add(stepCount);
@@ -61,8 +104,7 @@ public class GameJFrame extends JFrame implements KeyListener {
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 4; i++) {
                 int count = imageIndex[i][j];
-                System.out.println(count);
-                JLabel jl = new JLabel(new ImageIcon("image/girl/girl1/" + count + ".jpg"));
+                JLabel jl = new JLabel(new ImageIcon("image/" + imagePath + "/" + imagePath + index + "/" + count + ".jpg"));
                 // 设置边框
                 jl.setBorder(new BevelBorder(1));
                 jl.setBounds(105 * i + 83, 105 * j + 134, 105, 105);
@@ -101,13 +143,161 @@ public class GameJFrame extends JFrame implements KeyListener {
         JMenu jm2 = new JMenu("关于我们");
 
         JMenuItem jmi1 = new JMenuItem("重新游戏");
-        JMenuItem jmi2 = new JMenuItem("关闭游戏");
+        jmi1.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                initArray();
+                initImage();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        JMenu jm4 = new JMenu("更换图片");
+        JMenuItem jmi41 = new JMenuItem("美女");
+        jmi41.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                imagePath = imagePathArr[0];
+                index = initImagePath();
+                initImage();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        JMenuItem jmi42 = new JMenuItem("动物");
+        jmi42.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                imagePath = imagePathArr[1];
+                index = initImagePath();
+                initImage();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        JMenuItem jmi43 = new JMenuItem("运动");
+        jmi43.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                imagePath = imagePathArr[2];
+                index = initImagePath();
+                initImage();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        jm4.add(jmi41);
+        jm4.add(jmi42);
+        jm4.add(jmi43);
+
+        JMenuItem jm5 = new JMenuItem("重新登录");
+
         JMenuItem jmi3 = new JMenuItem("退出游戏");
+        jmi3.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                System.exit(0);
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         JMenuItem jmi4 = new JMenuItem("公众号");
 
+        jm1.add(jm4);
+        jm1.add(jm5);
         jm1.add(jmi1);
-        jm1.add(jmi2);
         jm1.add(jmi3);
 
         jm2.add(jmi4);
@@ -116,6 +306,17 @@ public class GameJFrame extends JFrame implements KeyListener {
         jmb.add(jm2);
 
         this.setJMenuBar(jmb);
+    }
+
+    private boolean isWin() {
+        for (int i = 0; i < imageIndex.length; i++) {
+            for (int j = 0; j < imageIndex[i].length; j++) {
+                if (imageIndex[i][j] != win[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -127,7 +328,7 @@ public class GameJFrame extends JFrame implements KeyListener {
         int keyCode = e.getKeyCode();
         if (keyCode == 65) {
             this.getContentPane().removeAll();
-            JLabel all = new JLabel(new ImageIcon("image/girl/girl1/all.jpg"));
+            JLabel all = new JLabel(new ImageIcon("image/" + imagePath + "/" + imagePath + index + "/"+"all.jpg"));
             all.setBounds(83, 134, 420, 420);
             this.getContentPane().add(all);
 

@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.lang.reflect.Array;
 import java.util.Random;
 
 public class GameJFrame extends JFrame implements KeyListener {
@@ -40,27 +39,17 @@ public class GameJFrame extends JFrame implements KeyListener {
         initArray();
         // 初始化图片
         initImage();
-        // 初始化图片路径
-        initImagePath();
         // 设置窗口的显示
         this.setVisible(true);
     }
 
     private int initImagePath() {
+        int index = 0;
         Random r = new Random();
         switch (imagePath) {
-            case "girl" -> {
-                index = r.nextInt(13) + 1;
-                break;
-            }
-            case "animal" -> {
-                index = r.nextInt(8) + 1;
-                break;
-            }
-            case "sport" -> {
-                index = r.nextInt(10) + 1;
-                break;
-            }
+            case "girl" -> index = r.nextInt(13) + 1;
+            case "animal" -> index = r.nextInt(8) + 1;
+            case "sport" -> index = r.nextInt(10) + 1;
         }
         return index;
     }
@@ -156,6 +145,7 @@ public class GameJFrame extends JFrame implements KeyListener {
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                step = 0;
                 initArray();
                 initImage();
             }
@@ -188,6 +178,7 @@ public class GameJFrame extends JFrame implements KeyListener {
             public void mouseReleased(MouseEvent e) {
                 imagePath = imagePathArr[0];
                 index = initImagePath();
+                initArray();
                 initImage();
             }
 
@@ -217,6 +208,7 @@ public class GameJFrame extends JFrame implements KeyListener {
             public void mouseReleased(MouseEvent e) {
                 imagePath = imagePathArr[1];
                 index = initImagePath();
+                initArray();
                 initImage();
             }
 
@@ -246,6 +238,7 @@ public class GameJFrame extends JFrame implements KeyListener {
             public void mouseReleased(MouseEvent e) {
                 imagePath = imagePathArr[2];
                 index = initImagePath();
+                initArray();
                 initImage();
             }
 
@@ -343,13 +336,14 @@ public class GameJFrame extends JFrame implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        System.out.println(keyCode);
         if (keyCode == 37) {
             if (x == 0) {
                 return;
             }
             imageIndex[x][y] = imageIndex[x - 1][y];
             imageIndex[x - 1][y] = 0;
+            System.out.println(imagePath);
+            System.out.println(index);
             initImage();
             x--;
             step++;

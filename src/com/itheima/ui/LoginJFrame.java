@@ -1,19 +1,98 @@
 package com.itheima.ui;
 
-import javax.swing.*;
+import com.itheima.domain.User;
 
-public class LoginJFrame extends JFrame {
+import javax.swing.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+
+public class LoginJFrame extends JFrame implements MouseListener {
+
+    JButton loginJButton = new JButton();
+    JButton registerJButton = new JButton();
+
+    JTextField userNameJTextField = new JTextField();
+    JPasswordField passwordJPasswordField = new JPasswordField();
+    JTextField verificationCodeJTextField = new JTextField();
+
+
+
+
+    static ArrayList<User> allUsers = new ArrayList<>();
+    static {
+        allUsers.add(new User("zhangsan","123"));
+        allUsers.add(new User("lisi","1234"));
+    }
 
     public LoginJFrame() {
-       initJFrame();
+        initJFrame();
+        initLogin();
         this.setVisible(true);
+    }
+
+    private void initLogin() {
+        // 用户名
+        JLabel userNameJLabel = new JLabel();
+        userNameJLabel.setIcon(new ImageIcon("image/login/用户名.png"));
+        userNameJLabel.setBounds(100, 130, 47, 17);
+        this.getContentPane().add(userNameJLabel);
+        userNameJTextField.setBounds(170, 130, 170, 29);
+        this.getContentPane().add(userNameJTextField);
+
+        // 密码
+        JLabel passWordJLabel = new JLabel();
+        passWordJLabel.setIcon(new ImageIcon("image/login/密码.png"));
+        passWordJLabel.setBounds(112, 190, 32, 16);
+        this.getContentPane().add(passWordJLabel);
+        passwordJPasswordField.setBounds(170, 190, 150, 29);
+        this.getContentPane().add(passwordJPasswordField);
+        JLabel showPasswordJLabel = new JLabel(new ImageIcon("image/login/显示密码.png"));
+        showPasswordJLabel.setBounds(320, 190, 18, 29);
+        this.getContentPane().add(showPasswordJLabel);
+
+        // 验证码
+        JLabel verificationCodeJLabel = new JLabel(new ImageIcon("image/login/验证码.png"));
+        verificationCodeJLabel.setBounds(100, 250, 56, 21);
+        this.getContentPane().add(verificationCodeJLabel);
+        verificationCodeJTextField.setBounds(170, 250, 120, 29);
+        this.getContentPane().add(verificationCodeJTextField);
+        JLabel verificationCode = new JLabel("wxT51");
+        verificationCode.setBounds(300, 210, 100, 100);
+        this.getContentPane().add(verificationCode);
+
+        // 登录按钮
+        loginJButton.setIcon(new ImageIcon("image/login/登录按钮.png"));
+        // 去除按钮边框
+        loginJButton.setBorderPainted(false);
+        // 去除按钮背景
+        loginJButton.setContentAreaFilled(false);
+        loginJButton.setBounds(100, 300, 128, 47);
+        loginJButton.addMouseListener(this);
+        this.getContentPane().add(loginJButton);
+
+        // 注册按钮
+        registerJButton.setIcon(new ImageIcon("image/login/注册按钮.png"));
+        // 去除按钮边框
+        registerJButton.setBorderPainted(false);
+        // 去除按钮背景
+        registerJButton.setContentAreaFilled(false);
+        registerJButton.setBounds(250, 300, 128, 47);
+        registerJButton.addMouseListener(this);
+        this.getContentPane().add(registerJButton);
+
+        JLabel loginJLabel = new JLabel(new ImageIcon("image/login/background.png"));
+        loginJLabel.setBounds(2, 0, 470, 390);
+        this.getContentPane().add(loginJLabel);
+
+
     }
 
     private void initJFrame() {
         // 设置窗口的大小
-        this.setSize(603, 680);
+        this.setSize(490, 430);
         // 设置窗口的名称
-        this.setTitle("拼图小游戏 V1.0");
+        this.setTitle("登陆界面");
         // 设置窗口总是显示在屏幕最顶层
         this.setAlwaysOnTop(true);
         // 设置窗口居中
@@ -23,5 +102,58 @@ public class LoginJFrame extends JFrame {
 
         // 取消默认的居中方式，按照X,Y轴的形式来添加组件
         this.setLayout(null);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == loginJButton) {
+            String inputUserName = userNameJTextField.getText();
+            String inputPassWord = passwordJPasswordField.getText();
+            String code = verificationCodeJTextField.getText();
+            User userinfo = new User(inputUserName,inputPassWord);
+            System.out.println(inputUserName);
+            System.out.println(inputPassWord);
+            this.setVisible(false);
+            new GameJFrame();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        Object a = e.getSource();
+        if (e.getSource() == loginJButton){
+            loginJButton.setIcon(new ImageIcon("image/login/登录按下.png"));
+        } else if (e.getSource() == registerJButton){
+            registerJButton.setIcon(new ImageIcon("image/login/注册按下.png"));
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        if (e.getSource() == loginJButton){
+            loginJButton.setIcon(new ImageIcon("image/login/登录按钮.png"));
+        } else if (e.getSource() == registerJButton) {
+            registerJButton.setIcon(new ImageIcon("image/login/注册按钮.png"));
+        }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    public boolean isUser(User userInput) {
+        for (int i = 0; i < allUsers.size(); i++) {
+            User rightUser = allUsers.get(i);
+            if ((userInput.getUserName().equals(rightUser.getUserName()))&&(userInput.getUserName().equals(rightUser.getUserName()))){
+                return true;
+            }
+        }
+        return false;
     }
 }

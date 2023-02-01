@@ -20,8 +20,8 @@ public class GameJFrame extends JFrame implements KeyListener {
 
     // 储存图片路径
     String[] imagePathArr = {"girl", "animal", "sport"};
-    String imagePath = imagePathArr[2];
-    int index = 1;
+    String imagePath = imagePathArr[new Random().nextInt(3)];
+    int index = initImagePath();
 
     // x，y用来存储
     // 空格的位置
@@ -43,6 +43,7 @@ public class GameJFrame extends JFrame implements KeyListener {
         this.setVisible(true);
     }
 
+    // 随机初始图片
     private int initImagePath() {
         int index = 0;
         Random r = new Random();
@@ -125,6 +126,7 @@ public class GameJFrame extends JFrame implements KeyListener {
         this.addKeyListener(this);
     }
 
+    // 菜单功能
     private void initJMenuBar() {
         JMenuBar jmb = new JMenuBar();
 
@@ -257,6 +259,34 @@ public class GameJFrame extends JFrame implements KeyListener {
         jm4.add(jmi43);
 
         JMenuItem jm5 = new JMenuItem("重新登录");
+        jm5.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                setVisible(false);
+                new LoginJFrame();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
 
         JMenuItem jmi3 = new JMenuItem("退出游戏");
         jmi3.addMouseListener(new MouseListener() {

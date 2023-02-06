@@ -12,13 +12,10 @@ public class LoginJFrame extends JFrame implements MouseListener {
 
     JButton loginJButton = new JButton();
     JButton registerJButton = new JButton();
-
     JTextField userNameJTextField = new JTextField();
     JPasswordField passwordJPasswordField = new JPasswordField();
     JTextField verificationCodeJTextField = new JTextField();
-
-    verificationCode Vcode = new verificationCode();
-    String codes = Vcode.code();
+    String codes = verificationCode.code();
     static ArrayList<User> allUsers = new ArrayList<>();
 
     static {
@@ -95,7 +92,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
         verificationCode.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                codes = Vcode.code();
+                codes = com.itheima.tool.verificationCode.code();
                 verificationCode.setText(codes);
             }
 
@@ -147,8 +144,6 @@ public class LoginJFrame extends JFrame implements MouseListener {
         JLabel loginJLabel = new JLabel(new ImageIcon("image/login/background.png"));
         loginJLabel.setBounds(2, 0, 470, 390);
         this.getContentPane().add(loginJLabel);
-
-
     }
 
     private void initJFrame() {
@@ -174,10 +169,16 @@ public class LoginJFrame extends JFrame implements MouseListener {
             String inputPassWord = passwordJPasswordField.getText();
             String code = verificationCodeJTextField.getText();
             User userinfo = new User(inputUserName, inputPassWord);
-            System.out.println(inputUserName);
-            System.out.println(inputPassWord);
-            this.setVisible(false);
-            new GameJFrame();
+            // 校验账号、密码和验证码
+            if (isUser(userinfo) && codes.equals(code)) {
+                System.out.println(inputUserName);
+                System.out.println(inputPassWord);
+                new GameJFrame();
+                this.setVisible(false);
+            } else {
+                new loginPopup();
+                System.out.println("账号或者密码错误！");
+            }
         }
     }
 

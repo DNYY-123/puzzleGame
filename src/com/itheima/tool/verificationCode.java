@@ -1,21 +1,22 @@
 package com.itheima.tool;
 
 import java.util.Random;
-
+// 生成随机5位的验证码
 public class verificationCode {
-
-    public static void main(String[] args) {
-    }
-
     public static String code() {
         char[] letters = new char[62];
         for (int i = 0; i < letters.length; i++) {
-            if (i < 26) {
-                letters[i] = (char) (97 + i - 26);
-            } else if (i < 52) {
-                letters[i] = (char) (65 + i);
-            } else {
-                letters[i] = (char) (i - 4);
+            // 数字 48~57
+            if (i < 10) {
+                letters[i] = (char) (i + 48);
+            }
+            // 大写字母 65~90
+            else if (i < 36) {
+                letters[i] = (char) (i + 55);
+            }
+            // 小写字母 97~122
+            else {
+                letters[i] = (char) (i + 61);
             }
         }
 

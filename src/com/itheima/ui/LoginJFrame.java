@@ -1,6 +1,7 @@
 package com.itheima.ui;
 
 import com.itheima.domain.User;
+import com.itheima.tool.verificationCode;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -16,13 +17,13 @@ public class LoginJFrame extends JFrame implements MouseListener {
     JPasswordField passwordJPasswordField = new JPasswordField();
     JTextField verificationCodeJTextField = new JTextField();
 
-
-
-
+    verificationCode Vcode = new verificationCode();
+    String codes = Vcode.code();
     static ArrayList<User> allUsers = new ArrayList<>();
+
     static {
-        allUsers.add(new User("zhangsan","123"));
-        allUsers.add(new User("lisi","1234"));
+        allUsers.add(new User("zhangSan", "123"));
+        allUsers.add(new User("lisi", "1234"));
     }
 
     public LoginJFrame() {
@@ -45,19 +46,81 @@ public class LoginJFrame extends JFrame implements MouseListener {
         passWordJLabel.setIcon(new ImageIcon("image/login/密码.png"));
         passWordJLabel.setBounds(112, 190, 32, 16);
         this.getContentPane().add(passWordJLabel);
+
         passwordJPasswordField.setBounds(170, 190, 150, 29);
+        passwordJPasswordField.setEchoChar('*');
         this.getContentPane().add(passwordJPasswordField);
-        JLabel showPasswordJLabel = new JLabel(new ImageIcon("image/login/显示密码.png"));
-        showPasswordJLabel.setBounds(320, 190, 18, 29);
-        this.getContentPane().add(showPasswordJLabel);
+
+        JLabel showPassWordJLabel = new JLabel();
+        showPassWordJLabel.setIcon(new ImageIcon("image/login/显示密码.png"));
+        showPassWordJLabel.setBounds(320, 190, 20, 29);
+        this.getContentPane().add(showPassWordJLabel);
+        showPassWordJLabel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                showPassWordJLabel.setIcon(new ImageIcon("image/login/显示密码按下.png"));
+                passwordJPasswordField.setEchoChar('\0');
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                showPassWordJLabel.setIcon(new ImageIcon("image/login/显示密码.png"));
+                passwordJPasswordField.setEchoChar('*');
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         // 验证码
         JLabel verificationCodeJLabel = new JLabel(new ImageIcon("image/login/验证码.png"));
         verificationCodeJLabel.setBounds(100, 250, 56, 21);
         this.getContentPane().add(verificationCodeJLabel);
+        // 验证码框
         verificationCodeJTextField.setBounds(170, 250, 120, 29);
         this.getContentPane().add(verificationCodeJTextField);
-        JLabel verificationCode = new JLabel("wxT51");
+        // 验证码字母
+        JLabel verificationCode = new JLabel();
+        verificationCode.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                codes = Vcode.code();
+                verificationCode.setText(codes);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+
+        });
+        verificationCode.setText(codes);
         verificationCode.setBounds(300, 210, 100, 100);
         this.getContentPane().add(verificationCode);
 
@@ -110,7 +173,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
             String inputUserName = userNameJTextField.getText();
             String inputPassWord = passwordJPasswordField.getText();
             String code = verificationCodeJTextField.getText();
-            User userinfo = new User(inputUserName,inputPassWord);
+            User userinfo = new User(inputUserName, inputPassWord);
             System.out.println(inputUserName);
             System.out.println(inputPassWord);
             this.setVisible(false);
@@ -121,16 +184,16 @@ public class LoginJFrame extends JFrame implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         Object a = e.getSource();
-        if (e.getSource() == loginJButton){
+        if (e.getSource() == loginJButton) {
             loginJButton.setIcon(new ImageIcon("image/login/登录按下.png"));
-        } else if (e.getSource() == registerJButton){
+        } else if (e.getSource() == registerJButton) {
             registerJButton.setIcon(new ImageIcon("image/login/注册按下.png"));
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (e.getSource() == loginJButton){
+        if (e.getSource() == loginJButton) {
             loginJButton.setIcon(new ImageIcon("image/login/登录按钮.png"));
         } else if (e.getSource() == registerJButton) {
             registerJButton.setIcon(new ImageIcon("image/login/注册按钮.png"));
@@ -150,7 +213,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
     public boolean isUser(User userInput) {
         for (int i = 0; i < allUsers.size(); i++) {
             User rightUser = allUsers.get(i);
-            if ((userInput.getUserName().equals(rightUser.getUserName()))&&(userInput.getUserName().equals(rightUser.getUserName()))){
+            if ((userInput.getUserName().equals(rightUser.getUserName())) && (userInput.getUserName().equals(rightUser.getUserName()))) {
                 return true;
             }
         }

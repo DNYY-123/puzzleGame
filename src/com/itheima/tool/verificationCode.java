@@ -1,6 +1,7 @@
 package com.itheima.tool;
 
 import java.util.Random;
+
 // 生成随机5位的验证码
 public class verificationCode {
     public static String code() {
@@ -21,8 +22,8 @@ public class verificationCode {
         }
 
         StringBuilder sb = new StringBuilder();
+        Random r = new Random();
         for (int i = 0; i < 5; i++) {
-            Random r = new Random();
             int num = r.nextInt(0, 62);
             sb.append(letters[num]);
         }

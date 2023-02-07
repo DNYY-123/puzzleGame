@@ -2,6 +2,8 @@ package com.itheima.ui;
 
 import com.itheima.domain.User;
 import com.itheima.tool.verificationCode;
+import com.itheima.tool.isUser;
+
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -16,12 +18,6 @@ public class LoginJFrame extends JFrame implements MouseListener {
     JPasswordField passwordJPasswordField = new JPasswordField();
     JTextField verificationCodeJTextField = new JTextField();
     String codes = verificationCode.code();
-    static ArrayList<User> allUsers = new ArrayList<>();
-
-    static {
-        allUsers.add(new User("zhangSan", "123"));
-        allUsers.add(new User("lisi", "1234"));
-    }
 
     public LoginJFrame() {
         initJFrame();
@@ -170,15 +166,23 @@ public class LoginJFrame extends JFrame implements MouseListener {
             String code = verificationCodeJTextField.getText();
             User userinfo = new User(inputUserName, inputPassWord);
             // 校验账号、密码和验证码
-            if (isUser(userinfo) && codes.equals(code)) {
+            if (isUser.user(userinfo) && codes.equalsIgnoreCase(code)) {
                 System.out.println(inputUserName);
                 System.out.println(inputPassWord);
                 new GameJFrame();
                 this.setVisible(false);
             } else {
-                new loginPopup();
-                System.out.println("账号或者密码错误！");
+                // 弹窗 owner:显示弹窗的窗体  title：标题  modal：true代表先关闭弹窗才可以对owner代表的窗体进行操作
+                JDialog jd = new JDialog(this,"错误！！",true);
+                jd.setSize(150, 100);
+                jd.setAlwaysOnTop(true);
+                jd.setLocationRelativeTo(null);
+                jd.add(new JLabel("账号或者密码错误！！"));
+                jd.setVisible(true);
             }
+        } else if (e.getSource() == registerJButton) {
+            new RegisterJFrame();
+            this.setVisible(false);
         }
     }
 
@@ -209,15 +213,5 @@ public class LoginJFrame extends JFrame implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
-    }
-
-    public boolean isUser(User userInput) {
-        for (int i = 0; i < allUsers.size(); i++) {
-            User rightUser = allUsers.get(i);
-            if ((userInput.getUserName().equals(rightUser.getUserName())) && (userInput.getUserName().equals(rightUser.getUserName()))) {
-                return true;
-            }
-        }
-        return false;
     }
 }

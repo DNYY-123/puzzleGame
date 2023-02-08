@@ -8,7 +8,6 @@ import com.itheima.tool.isUser;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 public class LoginJFrame extends JFrame implements MouseListener {
 
@@ -167,8 +166,6 @@ public class LoginJFrame extends JFrame implements MouseListener {
             User userinfo = new User(inputUserName, inputPassWord);
             // 校验账号、密码和验证码
             if (isUser.user(userinfo) && codes.equalsIgnoreCase(code)) {
-                System.out.println(inputUserName);
-                System.out.println(inputPassWord);
                 new GameJFrame();
                 this.setVisible(false);
             } else {
@@ -188,7 +185,6 @@ public class LoginJFrame extends JFrame implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        Object a = e.getSource();
         if (e.getSource() == loginJButton) {
             loginJButton.setIcon(new ImageIcon("image/login/登录按下.png"));
         } else if (e.getSource() == registerJButton) {

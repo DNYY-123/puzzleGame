@@ -6,7 +6,7 @@ import com.itheima.tool.isUser;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class RegisterJFrame extends JFrame implements MouseListener {
 
@@ -101,16 +101,22 @@ public class RegisterJFrame extends JFrame implements MouseListener {
             // 判断用户名是否存在
             if (isUser.user(userinfo)) {
                 System.out.println("用户名已存在");
+            } else if (Objects.equals(userName, "")) {
+                System.out.println("用户名不能为空！！");
             } else {
                 if (passWord.equals(repeatPassWord)) {
-
+                    isUser.addAllUsers(new User(userName,passWord));
                     this.setVisible(false);
                     new LoginJFrame();
+                } else {
+                    System.out.println("两次密码不一致！！");
                 }
             }
             System.out.println(userName + " " + passWord + " " + repeatPassWord);
         } else if (e.getSource() == resetButton) {
-            System.out.println("111");
+            inputUserNameField.setText("");
+            inputPassWordField.setText("");
+            repeatInputPassWordField.setText("");
         }
     }
 
